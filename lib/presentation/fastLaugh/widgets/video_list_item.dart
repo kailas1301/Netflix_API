@@ -3,12 +3,16 @@ import 'package:netflix_clone/core/colors/colors.dart';
 
 class VideoListItem extends StatelessWidget {
   final int index;
-  const VideoListItem({super.key, required this.index});
+  final String imageurl;
+
+  const VideoListItem({super.key, required this.index, required this.imageurl});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.accents[index % Colors.accents.length],
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(imageurl), fit: BoxFit.cover)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Row(
@@ -26,18 +30,19 @@ class VideoListItem extends StatelessWidget {
                     size: 30,
                   )),
             ),
-            const Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: CircleAvatar(
                   radius: 30,
-                  backgroundImage: NetworkImage(''),
+                  backgroundImage: NetworkImage(imageurl),
                 ),
               ),
-              VideoActionWidget(icon: Icons.emoji_emotions, title: 'Share'),
-              VideoActionWidget(icon: Icons.add, title: 'LOL'),
-              VideoActionWidget(icon: Icons.share, title: 'My List'),
-              VideoActionWidget(icon: Icons.play_arrow, title: 'Play'),
+              const VideoActionWidget(
+                  icon: Icons.emoji_emotions, title: 'Share'),
+              const VideoActionWidget(icon: Icons.add, title: 'LOL'),
+              const VideoActionWidget(icon: Icons.share, title: 'My List'),
+              const VideoActionWidget(icon: Icons.play_arrow, title: 'Play'),
             ]),
           ],
         ),

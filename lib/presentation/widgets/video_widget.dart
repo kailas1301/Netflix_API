@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/colors/colors.dart';
 
 class VideoWidget extends StatelessWidget {
@@ -13,17 +12,13 @@ class VideoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
+        Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
           width: double.infinity,
           height: 200,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Image.network(
-              '$videoImage',
-              fit: BoxFit.cover,
-            ),
+          child: Image.network(
+            '$videoImage',
+            fit: BoxFit.cover,
           ),
         ),
         Positioned(

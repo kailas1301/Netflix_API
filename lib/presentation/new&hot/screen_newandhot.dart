@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/presentation/new&hot/widgets/coming_soon_widget.dart';
 import 'package:netflix_clone/presentation/new&hot/widgets/everyones_watching_widget.dart';
-
 import '../../core/colors/colors.dart';
 
 class ScreenNewAndHot extends StatelessWidget {
@@ -65,15 +64,15 @@ class ScreenNewAndHot extends StatelessWidget {
   }
 
   Widget buildComingSoon() {
-    return ComingSoonWidget();
+    return const ComingSoonWidget();
   }
 
   buildEveryonesWatching() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kHeight20,
-        const Text(
+        Text(
           "🔥Everyone's watching",
           style: TextStyle(
             fontWeight: FontWeight.bold,
