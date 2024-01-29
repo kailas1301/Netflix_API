@@ -33,7 +33,7 @@ class ScreenNewAndHot extends StatelessWidget {
                 SizedBox(
                   height: 30,
                   width: 30,
-                  child: Image.asset("assets/avatar.png"),
+                  child: Image.asset("assets/images/profile.png"),
                 ),
                 kWidth,
               ],
@@ -73,7 +73,7 @@ class ScreenNewAndHot extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kHeight20,
-        Text(
+        const Text(
           "🔥Everyone's watching",
           style: TextStyle(
             fontWeight: FontWeight.bold,

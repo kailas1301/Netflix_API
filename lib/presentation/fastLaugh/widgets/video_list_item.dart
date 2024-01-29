@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/core/colors/colors.dart';
-import 'package:netflix_clone/presentation/search/widgets/search_results.dart';
 
 class VideoListItem extends StatelessWidget {
   final int index;
@@ -16,7 +15,6 @@ class VideoListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //left side
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.black.withOpacity(0.5),
@@ -28,7 +26,6 @@ class VideoListItem extends StatelessWidget {
                     size: 30,
                   )),
             ),
-            // rightside
             const Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),

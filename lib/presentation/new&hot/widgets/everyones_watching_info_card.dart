@@ -6,21 +6,21 @@ import 'package:netflix_clone/presentation/widgets/video_widget.dart';
 class EveryonesWatchingInfoCard extends StatelessWidget {
   const EveryonesWatchingInfoCard({
     super.key,
-    // required this.movieInfo
+    required this.title,
+    required this.imageUrl,
+    required this.overview,
   });
-  // final MovieInfoModel movieInfo;
+  final String title;
+  final String imageUrl;
+  final String overview;
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = '';
-    // 'https://image.tmdb.org/t/p/w500${movieInfo.posterPath}?api_key=b2dee3b855c4ea705ff5dda3c0201768';
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //IMAGE,
           VideoWidget(
             videoImage: imageUrl,
           ),
@@ -49,18 +49,16 @@ class EveryonesWatchingInfoCard extends StatelessWidget {
           ),
           kHeight,
           Text(
-            // movieInfo.originalTitle ??
-            'No Title Found',
-            style: const TextStyle(
+            title,
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
           kHeight,
           Text(
-            'good',
-            // movieInfo.overview,
-            style: const TextStyle(color: Colors.grey),
+            overview,
+            style: TextStyle(color: Colors.grey),
           ),
         ],
       ),

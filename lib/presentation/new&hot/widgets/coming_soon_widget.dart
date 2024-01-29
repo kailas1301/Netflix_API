@@ -1,24 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/application/new&hot/new&hotfunctions.dart';
+import 'package:netflix_clone/core/api.constants.dart';
+import 'package:netflix_clone/model/model.dart';
 import 'coming_soon_info_card.dart';
 
-class ComingSoonWidget extends StatelessWidget {
-  ComingSoonWidget({Key? key}) : super(key: key);
+ValueNotifier<List<Movie>> comingSoonMovieNotifier = ValueNotifier([]);
 
-  // Mock data for demonstration purposes
-  final List<Map<String, dynamic>> mockData = [
-    {'title': 'Movie A', 'description': 'Description A'},
-    {'title': 'Movie B', 'description': 'Description B'},
-    {'title': 'Movie C', 'description': 'Description C'},
-    // Add more mock data as needed
-  ];
+class ComingSoonWidget extends StatefulWidget {
+  const ComingSoonWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ComingSoonWidget> createState() => _ComingSoonWidgetState();
+}
+
+class _ComingSoonWidgetState extends State<ComingSoonWidget> {
+  @override
+  void initState() {
+    fetchmovies();
+    super.initState();
+  }
+
+  void fetchmovies() async {
+    comingSoonMovieNotifier.value = await getComingSoonMovies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: mockData.length,
-      itemBuilder: (BuildContext context, int index) {
-        final movieInfo = mockData[index];
-        return const ComingSoonInfoCard();
+    return ValueListenableBuilder(
+      valueListenable: comingSoonMovieNotifier,
+      builder: (context, snapshot, _) {
+        if (snapshot.isEmpty) {
+          return (const Text('error'));
+        } else if (snapshot.isNotEmpty) {
+          return Expanded(
+              child: ListView.separated(
+            itemCount: snapshot.length,
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 20,
+            ),
+            itemBuilder: (context, index) {
+              final movie = snapshot[index];
+              final imageurl =
+                  ApiConstants.imageBaseUrl + (movie.backDropPath ?? '');
+              final releaseDate = movie.releaseData ?? '';
+              final overview = movie.overview ?? '';
+              final orignalTitle = movie.orginaltitle ?? '';
+              return ComingSoonInfoCard(
+                  releaseDate: releaseDate,
+                  originalTitle: orignalTitle,
+                  overview: overview,
+                  imageUrl: imageurl);
+            },
+          ));
+        } else {
+          return const CircularProgressIndicator();
+        }
       },
     );
   }

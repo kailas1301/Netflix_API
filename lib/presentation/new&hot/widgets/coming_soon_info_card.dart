@@ -3,38 +3,37 @@ import 'package:intl/intl.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/presentation/home/widgets/custom_button.dart';
 import 'package:netflix_clone/presentation/widgets/video_widget.dart';
-
 import '../../../core/colors/colors.dart';
 
 class ComingSoonInfoCard extends StatelessWidget {
   const ComingSoonInfoCard({
     super.key,
-    // required this.movieInfo
+    required this.releaseDate,
+    required this.originalTitle,
+    required this.overview,
+    required this.imageUrl,
   });
 
-  // final MovieInfoModel movieInfo;
-
+  final String releaseDate;
+  final String originalTitle;
+  final String overview;
+  final String imageUrl;
   @override
   Widget build(BuildContext context) {
-    String imageUrl = '';
-    // 'https://image.tmdb.org/t/p/w500${movieInfo.posterPath}?api_key=b2dee3b855c4ea705ff5dda3c0201768';
-
     return Padding(
       padding: const EdgeInsets.only(top: 23.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(
+          SizedBox(
             width: 50,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '12/10/2018'
-                  // fetchDate(movieInfo.releaseDate!)
-                  ,
-                  style: TextStyle(
+                  fetchDate(releaseDate),
+                  style: const TextStyle(
                       fontSize: 18,
                       color: kWhiteColour,
                       fontWeight: FontWeight.bold),
@@ -69,22 +68,20 @@ class ComingSoonInfoCard extends StatelessWidget {
                   ],
                 ),
                 kHeight,
-                // Text("Coming on ${fetchDay(movieInfo.releaseDate!)}"),
+                Text("Coming on ${fetchDay(releaseDate)}"),
                 kHeight,
-                const Text(
-                  // movieInfo.originalTitle ?? 'Empty Title',
-                  'movie',
-                  style: TextStyle(
+                Text(
+                  originalTitle,
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -1,
                   ),
                 ),
                 kHeight,
-                const Text(
-                  // movieInfo.overview,
-                  'good',
-                  style: TextStyle(color: Colors.grey),
+                Text(
+                  overview,
+                  style: const TextStyle(color: Colors.grey),
                 ),
                 kHeight20
               ],
@@ -96,12 +93,8 @@ class ComingSoonInfoCard extends StatelessWidget {
   }
 
   String fetchDate(String date) {
-    //convert date in string format to date format
     DateTime dateInFormat = DateTime.parse(date);
     final formatDate = (DateFormat.MMMMd().format(dateInFormat)).split(" ");
-    //add \n to make it in the displayable format eg:
-    //APR
-    //5
     return "${formatDate.first.substring(0, 3)} \n${formatDate.last} ";
   }
 

@@ -6,6 +6,8 @@ import 'package:netflix_clone/model/model.dart';
 import 'package:netflix_clone/presentation/search/widgets/search_idle.dart';
 import 'package:netflix_clone/presentation/search/widgets/search_results.dart';
 
+ValueNotifier<List<Movie>> searchNotifier = ValueNotifier([]);
+
 class ScreenSearch extends StatefulWidget {
   const ScreenSearch({super.key});
 
@@ -17,17 +19,10 @@ class _ScreenSearchState extends State<ScreenSearch> {
   final TextEditingController searchController = TextEditingController();
   late Future<List<Movie>> topSearches;
   bool isSearched = false;
-  late Future<List<Movie>> searchmovielist;
 
   @override
   void initState() {
     topSearches = getAllMovies();
-    if (searchController.text.isEmpty) {
-      setState(() {
-        isSearched = false;
-      });
-    }
-    print('the top search list is$topSearches');
     super.initState();
   }
 
@@ -41,10 +36,13 @@ class _ScreenSearchState extends State<ScreenSearch> {
           children: [
             CupertinoTextField(
               controller: searchController,
+              onChanged: (value) async {
+                searchNotifier.value =
+                    await getSearchedMovies(searchController.text);
+              },
               onTap: () {
                 setState(() {
                   isSearched = true;
-                  searchmovielist = getSearchedMovies(searchController.text);
                 });
               },
               decoration: BoxDecoration(
@@ -66,10 +64,8 @@ class _ScreenSearchState extends State<ScreenSearch> {
                       movies: topSearches,
                     ),
                   )
-                : Expanded(
-                    child: SearchResultWidget(
-                      searchedmovieList: searchmovielist,
-                    ),
+                : const Expanded(
+                    child: SearchResultWidget(),
                   )
           ],
         ),

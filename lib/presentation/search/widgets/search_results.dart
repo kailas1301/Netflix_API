@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/core/api.constants.dart';
 import 'package:netflix_clone/core/constants.dart';
-import 'package:netflix_clone/model/model.dart';
+import 'package:netflix_clone/presentation/search/screen_search.dart';
 import 'package:netflix_clone/presentation/search/widgets/title.dart';
 
 class SearchResultWidget extends StatelessWidget {
-  SearchResultWidget({super.key, required this.searchedmovieList});
-  final Future<List<Movie>> searchedmovieList;
+  const SearchResultWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,28 +16,31 @@ class SearchResultWidget extends StatelessWidget {
       children: [
         const SearchTitle(title: 'Movies & TV'),
         kHeight,
-        FutureBuilder(
-          future: searchedmovieList,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text('error ${snapshot.error}');
-            } else if (snapshot.hasData) {
+        ValueListenableBuilder(
+          valueListenable: searchNotifier,
+          builder: (context, snapshot, _) {
+            if (snapshot.isEmpty) {
+              return const Text('Is Empty');
+            } else if (snapshot.isNotEmpty) {
               return Expanded(
                   child: Expanded(
-                      child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                childAspectRatio: 1 / 1.4,
-                children: List.generate(snapshot.data!.length, (index) {
-                  final movie = snapshot.data![index];
-                  final image = movie.posterPath ?? "";
-                  return MainMovieCard(imageUrl: image);
-                }),
+                      child: GridView.builder(
+                itemCount: snapshot.length,
+                itemBuilder: (context, index) {
+                  final movies = snapshot[index];
+                  final imageUrl =
+                      ApiConstants.imageBaseUrl + (movies.posterPath ?? '');
+                  return MainMovieCard(imageUrl: imageUrl);
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 1 / 1.4,
+                ),
               )));
             } else {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           },
         )
